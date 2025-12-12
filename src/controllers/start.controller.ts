@@ -1,4 +1,4 @@
-import { BaseController } from "@/core/base-contoller.js";
+import { BaseController } from "@/core/base-controller.js";
 import { Context, Telegraf } from "telegraf";
 
 /**

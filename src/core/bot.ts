@@ -1,5 +1,5 @@
 import { Context, Telegraf } from "telegraf";
-import { BaseController } from "./base-contoller.js";
+import { BaseController } from "./base-controller.js";
 import { logger } from "./logger.js";
 
 /**

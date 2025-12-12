@@ -1,4 +1,4 @@
-import { BaseController } from "@/core/base-contoller.js";
+import { BaseController } from "@/core/base-controller.js";
 import { logger } from "@/core/logger.js";
 import { BankService } from "@/domain/bank.service.js";
 import { Telegraf, Context } from "telegraf";
