@@ -17,6 +17,9 @@ class Logger {
       format.errors({ stack: true }),
       format.splat(),
       format.json(),
+      format.printf(
+        (info) => `[${info.level}] ${info.timestamp}: ${info.message}`,
+      ),
     );
 
     const loggerTransports: winston.transport[] = [

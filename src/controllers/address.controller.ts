@@ -34,9 +34,9 @@ export class CryptoAddressController extends BaseController {
 
     if (!key) {
       const replyMessage =
-        "Please specify the key for bank details. Example: /bdetails bhd-bbk";
+        "Please specify the key for crypto address. Example: /atme_address usdt";
       await ctx.reply(replyMessage);
-      logger.warn(`Пользователь ${userId} вызвал /bdetails без ключа.`);
+      logger.warn(`Пользователь ${userId} вызвал /atme_address без ключа.`);
       return;
     }
 
