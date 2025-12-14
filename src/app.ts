@@ -8,6 +8,8 @@ import { BankService } from "./domain/bank.service.js";
 import { GoogleDriveService } from "./external/google-drive.service.js";
 import { CryptoAddressService } from "./domain/crypto-address.service.js";
 import { CryptoAddressController } from "./controllers/address.controller.js";
+// import { DealController } from "./controllers/deal.controllers.js";
+// import { DealService } from "./domain/deal.service.js";
 
 const start = async () => {
   if (!process.env.TELEGRAM_BOT_TOKEN) {
@@ -20,7 +22,7 @@ const start = async () => {
   }
   const accessList = process.env.ACCESS_LIST.split(",").map(Number);
 
-  logger.debug(`Загрузка конфигурации: ${process.env.ACCESS_LIST}`);
+  logger.info(`Загрузка конфигурации: ${process.env.ACCESS_LIST}`);
 
   const bot = new Bot(process.env.TELEGRAM_BOT_TOKEN, accessList);
 
@@ -46,17 +48,18 @@ const start = async () => {
 
   const bankService = new BankService(googleSheetsService, googleDriveService);
   const cryptoAddressService = new CryptoAddressService(googleSheetsService);
+  // const dealService = new DealService(googleSheetsService);
 
   const controllers = [
     new StartController(),
     new BankDetailsController(bankService),
     new CryptoAddressController(cryptoAddressService),
+    // new DealController(dealService),
   ];
 
   bot.registerControllers(controllers);
 
   await bot.launch();
-  logger.debug("Телеграм бот запущен.");
 };
 
 start().catch((err) => {

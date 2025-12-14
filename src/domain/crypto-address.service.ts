@@ -26,7 +26,7 @@ export class CryptoAddressService {
   public async getCryptoAddress(key: string): Promise<CryptoAddressResponse> {
     const sheet = this.googleSheetsService.getSheet(CRYPTO_ADDRESS_SHEET_TITLE);
 
-    logger.debug(
+    logger.info(
       `Получение реквизитов криптокошелька из таблицы: ${CRYPTO_ADDRESS_SHEET_TITLE}`,
     );
 

@@ -52,6 +52,7 @@ export class Bot {
    * Запускает бота в режиме Polling.
    */
   public async launch(): Promise<void> {
+    logger.info("Запускаем телеграм бота");
     await this.telegrafInstance.launch();
 
     // Включаем graceful shutdown (корректное завершение работы при остановке процесса)
@@ -81,11 +82,9 @@ export class Bot {
     const messageText = (ctx.message as any)?.text;
     const isPrivate = ctx.chat?.type === "private";
 
-    logger.debug(`Проверка доступа пользователя ${userId}`);
-
     if (!userId || !isAuthorized) {
       // Неавторизованная зона
-      logger.debug(`Пользователь ${userId} не имеет доступа к боту.`);
+      logger.warn(`Пользователь ${userId} не имеет доступа к боту.`);
 
       if (isPrivate && messageText === "/start") {
         ctx.reply(
@@ -98,7 +97,6 @@ export class Bot {
     }
 
     // Авторизованная зона
-    logger.debug(`Пользователь ${userId} имеет доступ к боту`);
     return next();
   }
 

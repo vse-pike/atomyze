@@ -6,6 +6,17 @@ import {
 } from "google-spreadsheet";
 import * as fs from "fs/promises";
 
+export interface DealRecord {
+  username: string;
+  dealReference: string;
+  date: string;
+  direction: "BUY" | "SELL";
+  pair: string;
+  rate: number;
+  cryptoAmount: number;
+  fiatAmount: number;
+}
+
 /**
  * Singleton-клиент для Google Spreadsheets.
  * Отвечает за: Авторизацию (один раз при старте) и предоставление доступа к листам.
@@ -73,6 +84,7 @@ export class GoogleSheetsService {
    * @returns
    */
   public getSheet(title: string): GoogleSpreadsheetWorksheet {
+    logger.info(`Получение листа "${title}"...`);
     if (!this.isInitialized || !this.doc) {
       logger.error("Попытка доступа к Google Sheet до его инициализации.");
       throw new Error(
@@ -84,6 +96,31 @@ export class GoogleSheetsService {
     if (!sheet) {
       throw new Error(`Sheet not found: ${title}`);
     }
+    logger.info(`Лист "${title}" успешно получен.`);
     return sheet;
+  }
+
+  /**
+   * Записывает строку данных в указанную вкладку.
+   * @param sheetTitle - Название вкладки ('Deals', 'bank details' и т.д.).
+   * @param rowData - Массив данных для записи.
+   */
+  public async appendRow(
+    sheetTitle: string,
+    rowData: (string | number)[],
+  ): Promise<void> {
+    try {
+      logger.info(`Получение листа "${sheetTitle}"...`);
+      const sheet = this.getSheet(sheetTitle);
+
+      logger.info(`Запись в таблицу ${sheetTitle}: ${rowData.join(" | ")}`);
+
+      await sheet.addRow(rowData);
+
+      logger.info(`Строка успешно добавлена в лист "${sheetTitle}".`);
+    } catch (error) {
+      logger.error(`Не удалось записать данные в лист "${sheetTitle}".`, error);
+      throw new Error("Failed to append row to Google Sheet.");
+    }
   }
 }

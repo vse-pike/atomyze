@@ -31,7 +31,7 @@ export class BankService {
   public async getBankDetails(key: string): Promise<BankDetailResponse> {
     const sheet = this.googleSheetsService.getSheet(BANK_DETAILS_SHEET_TITLE);
 
-    logger.debug(
+    logger.info(
       `Получение реквизитов банка из таблицы: ${BANK_DETAILS_SHEET_TITLE}`,
     );
 
